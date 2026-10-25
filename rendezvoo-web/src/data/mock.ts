@@ -28,7 +28,7 @@ export const INITIAL_INVITES: Invite[] = [
 export const INITIAL_GROUPS: Group[] = [
   {
     id: 'g1',
-    name: 'ACM Study Crew',
+    name: 'Study Crew',
     category: 'school',
     color: '#E491A6',
     pinned: true,
