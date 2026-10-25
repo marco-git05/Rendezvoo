@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #FBF7F2;
+  --color-card: #FFFFFF;
+  --color-ink: #1F1B16;
+  --color-muted: #7A7068;
+  --color-line: #ECE4DA;
+  --color-brand: #E2603B;
+  --color-brand-soft: #FBE3DA;
+  --color-danger: #C0392B;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* FullCalendar theming */
+.fc {
+  --fc-border-color: var(--color-line);
+  --fc-today-bg-color: #FBE3DA80;
+  --fc-button-bg-color: var(--color-brand);
+  --fc-button-border-color: var(--color-brand);
+  --fc-button-hover-bg-color: #C9502F;
+  --fc-button-hover-border-color: #C9502F;
+  --fc-button-active-bg-color: #B44528;
+  --fc-button-active-border-color: #B44528;
+  --fc-bg-event-opacity: 0.55;
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 10px;
+  font-size: 0.85rem;
+}
+.fc .fc-toolbar-title { font-size: 1.05rem; font-weight: 700; }
+.fc .fc-button { padding: 0.3rem 0.6rem; font-size: 0.8rem; text-transform: capitalize; }
+.fc .fc-daygrid-day { cursor: pointer; }
+.fc a { color: inherit; text-decoration: none; }
+
+/* Keep Leaflet maps under our sticky header/nav */
+.leaflet-container { z-index: 0; font: inherit; }

@@ -1,4 +1,14 @@
-node_modules
-dist
-.env
+node_modules/
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+.vercel/
 .DS_Store
+npm-debug.log*
+
+# secrets — never commit these
+.env
+.env.local
+.env*.local
