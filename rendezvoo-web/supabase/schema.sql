@@ -1,5 +1,5 @@
 -- ============================================================
--- Rendezvoo database. Run once in Supabase → SQL Editor on a fresh project.
+-- Rendezvoo database. Run in Supabase → SQL Editor. Safe to run again: it skips or replaces anything that already exists.
 -- ============================================================
 
 -- ---------- Tables ----------
@@ -172,10 +172,14 @@ alter table events        enable row level security;
 alter table event_rsvps   enable row level security;
 alter table photos        enable row level security;
 
+drop policy if exists "see self and groupmates" on profiles;
 create policy "see self and groupmates" on profiles for select using (id = auth.uid() or shares_group(id));
+drop policy if exists "edit own profile" on profiles;
 create policy "edit own profile"        on profiles for update using (id = auth.uid());
 
+drop policy if exists "own home" on homes;
 create policy "own home" on homes for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "groupmates see shared homes" on homes;
 create policy "groupmates see shared homes" on homes for select using (
   exists (
     select 1 from group_members owner
@@ -184,32 +188,53 @@ create policy "groupmates see shared homes" on homes for select using (
   )
 );
 
+drop policy if exists "members see group" on groups;
 create policy "members see group"  on groups for select using (is_member(id));
+drop policy if exists "members edit group" on groups;
 create policy "members edit group" on groups for update using (is_member(id));   -- anyone can change name/photo
 
+drop policy if exists "members see members" on group_members;
 create policy "members see members"  on group_members for select using (is_member(group_id));
+drop policy if exists "edit own membership" on group_members;
 create policy "edit own membership"  on group_members for update using (user_id = auth.uid());
+drop policy if exists "admin edits members" on group_members;
 create policy "admin edits members"  on group_members for update using (is_admin(group_id));  -- priority toggles
+drop policy if exists "leave group" on group_members;
 create policy "leave group"          on group_members for delete using (user_id = auth.uid());
 
+drop policy if exists "members see invites" on invites;
 create policy "members see invites"    on invites for select using (is_member(group_id));
+drop policy if exists "members make invites" on invites;
 create policy "members make invites"   on invites for insert with check (is_member(group_id) and creator_id = auth.uid());
+drop policy if exists "members update invites" on invites;
 create policy "members update invites" on invites for update using (is_member(group_id));
 
+drop policy if exists "members see responses" on responses;
 create policy "members see responses" on responses for select using (can_see_invite(invite_id));
+drop policy if exists "write own response" on responses;
 create policy "write own response"    on responses for insert with check (user_id = auth.uid() and can_see_invite(invite_id));
+drop policy if exists "update own response" on responses;
 create policy "update own response"   on responses for update using (user_id = auth.uid());
 
+drop policy if exists "members see events" on events;
 create policy "members see events"  on events for select using (is_member(group_id));
+drop policy if exists "members make events" on events;
 create policy "members make events" on events for insert with check (is_member(group_id) and created_by = auth.uid());
+drop policy if exists "members edit events" on events;
 create policy "members edit events" on events for update using (is_member(group_id));
+drop policy if exists "creator or admin deletes events" on events;
 create policy "creator or admin deletes events" on events for delete using (created_by = auth.uid() or is_admin(group_id));
 
+drop policy if exists "members see rsvps" on event_rsvps;
 create policy "members see rsvps" on event_rsvps for select using (can_see_event(event_id));
+drop policy if exists "write own rsvp" on event_rsvps;
 create policy "write own rsvp"    on event_rsvps for insert with check (user_id = auth.uid() and can_see_event(event_id));
+drop policy if exists "update own rsvp" on event_rsvps;
 create policy "update own rsvp"   on event_rsvps for update using (user_id = auth.uid());
 
+drop policy if exists "members see photos" on photos;
 create policy "members see photos" on photos for select using (can_see_event(event_id));
+drop policy if exists "members add photos" on photos;
 create policy "members add photos" on photos for insert with check (user_id = auth.uid() and can_see_event(event_id));
 
 -- ---------- Storage (profile pics, group pics, album photos) ----------
@@ -217,6 +242,12 @@ create policy "members add photos" on photos for insert with check (user_id = au
 insert into storage.buckets (id, name, public) values ('avatars', 'avatars', true) on conflict do nothing;
 insert into storage.buckets (id, name, public) values ('photos',  'photos',  true) on conflict do nothing;
 
+drop policy if exists "read images" on storage.objects;
 create policy "read images"    on storage.objects for select using (bucket_id in ('avatars','photos'));
+drop policy if exists "upload images" on storage.objects;
 create policy "upload images"  on storage.objects for insert to authenticated with check (bucket_id in ('avatars','photos'));
+drop policy if exists "replace images" on storage.objects;
 create policy "replace images" on storage.objects for update to authenticated using (bucket_id in ('avatars','photos'));
+
+-- Make the API see the new tables right away.
+notify pgrst, 'reload schema';
