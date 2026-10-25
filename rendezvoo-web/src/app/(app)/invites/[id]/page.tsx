@@ -117,7 +117,7 @@ export default function InvitePage() {
 
       {locked && (
         <p className="rounded-xl bg-brand-soft px-3 py-2 text-sm">
-          🔒 This invite is closed, so the grid and questions are locked. Reopen it at the bottom of the page.
+          This invite is closed, so the grid and questions are locked. Reopen it at the bottom of the page.
         </p>
       )}
       <SectionTitle>When are you free?</SectionTitle>
