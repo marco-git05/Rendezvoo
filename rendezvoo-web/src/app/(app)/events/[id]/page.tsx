@@ -91,14 +91,14 @@ export default function EventPage() {
       <PageHeader title={event.title} back={`/groups/${event.group_id}`} subtitle={event.groups?.name} />
 
       <Card className="flex flex-col gap-2">
-        <p>📅 {fmtDay(event.starts_at)} · {fmtTime(event.starts_at)}{event.ends_at ? ` – ${fmtTime(event.ends_at)}` : ''}</p>
+        <p>{fmtDay(event.starts_at)} · {fmtTime(event.starts_at)}{event.ends_at ? ` – ${fmtTime(event.ends_at)}` : ''}</p>
         {event.location && (
           <p>
-            📍 <a className="underline decoration-line underline-offset-4 hover:text-brand" target="_blank" rel="noreferrer"
+            <a className="underline decoration-line underline-offset-4 hover:text-brand" target="_blank" rel="noreferrer"
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.location)}`}>{event.location}</a>
           </p>
         )}
-        {d?.drivers?.length ? <p>🚗 Can drive: {d.drivers.join(', ')}</p> : null}
+        {d?.drivers?.length ? <p>Can drive: {d.drivers.join(', ')}</p> : null}
         {d?.description && <p className="mt-1">{d.description}</p>}
       </Card>
 
