@@ -29,8 +29,14 @@ export default function SignupPage() {
     });
     setBusy(false);
     if (error) return setError(error.message);
-    // No session means "Confirm email" is on in Supabase — turn it off for the hackathon.
-    if (!data.session) setError('Check your email to confirm your account, then log in.');
+    // No email confirmation step: if sign-up didn't start a session, log straight in.
+    if (!data.session) {
+      const { error: loginError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+      if (loginError) {
+        console.error('[signup] Auto login failed. Turn off "Confirm email" in Supabase → Authentication → Sign In / Providers → Email.', loginError.message);
+        setError('Your account was created, but we couldn’t log you in. Please try logging in.');
+      }
+    }
   }
 
   return (
