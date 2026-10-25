@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import NewHangout from './pages/NewHangout';
 import Profile from './pages/Profile';
 
+
 /** Pages with the bottom tab bar. */
 function TabLayout() {
   const tab = ({ isActive }: { isActive: boolean }) => (isActive ? 'active' : undefined);
