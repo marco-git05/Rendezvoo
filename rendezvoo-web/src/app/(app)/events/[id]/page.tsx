@@ -276,7 +276,7 @@ export default function EventPage() {
                   />
                   <div className="grid grid-cols-2 gap-2">
                     <Button variant="secondary" onClick={() => setShowRethink(false)} disabled={rethinking}>Cancel</Button>
-                    <Button onClick={rethink} loading={rethinking}>✨ Get a new plan</Button>
+                    <Button onClick={rethink} loading={rethinking}> Get a new plan</Button>
                   </div>
                   <p className="text-xs text-muted">
                     {rethinking
@@ -285,7 +285,7 @@ export default function EventPage() {
                   </p>
                 </>
               ) : (
-                <Button variant="secondary" onClick={() => setShowRethink(true)}>✨ Ask AI to rethink this plan</Button>
+                <Button variant="secondary" onClick={() => setShowRethink(true)}> Ask AI to rethink this plan</Button>
               )
             )}
             {canDelete && (
