@@ -7,6 +7,7 @@ import { useAppData } from '../data/AppData';
 import { prettyDate } from '../utils/dates';
 
 
+
 export default function GroupPage() {
   const { id } = useParams();
   const navigate = useNavigate();
