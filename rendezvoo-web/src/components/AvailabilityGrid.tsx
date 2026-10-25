@@ -242,7 +242,7 @@ function HeatGrid({ dates, hours, freeBy, everyone }: {
               {fromKey(focusDate!).toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })},{' '}
               {hourLabel(focusHour)}–{hourLabel(focusHour + 1)} · {free.length}/{everyone.length} free
             </p>
-            {free.length > 0 && <p className="text-muted">✅ {free.join(', ')}</p>}
+            {free.length > 0 && <p className="text-muted"> {free.join(', ')}</p>}
             {notFree.length > 0 && <p className="text-muted">— {notFree.join(', ')}</p>}
           </>
         ) : (

@@ -47,7 +47,6 @@ export default function GroupsPage() {
                 aria-label={m.pinned ? 'Unpin group' : 'Pin group to top'}
                 className={`rounded-lg px-2 py-1 text-lg transition ${m.pinned ? '' : 'opacity-25 hover:opacity-70'}`}
               >
-                📌
               </button>
             </li>
           ))}

@@ -7,9 +7,9 @@ import { useAuth } from '@/components/AuthProvider';
 import { Spinner } from '@/components/ui';
 
 const NAV = [
-  { href: '/', label: 'Groups', icon: '👥' },
-  { href: '/calendar', label: 'Calendar', icon: '📅' },
-  { href: '/profile', label: 'Profile', icon: '🙂' },
+  { href: '/', label: 'Groups'},
+  { href: '/calendar', label: 'Calendar'},
+  { href: '/profile', label: 'Profile'},
 ];
 
 // Everything inside (app) requires login. Logged-out visitors go to /login.
@@ -31,7 +31,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <div className="min-h-dvh pb-24 sm:pb-10">
       <header className="sticky top-0 z-[1100] border-b border-line bg-bg/90 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <Link href="/" className="text-lg font-extrabold">📍 Rendezvoo</Link>
+          <Link href="/" className="text-lg font-extrabold">Rendezvoo</Link>
           <nav className="hidden gap-1 sm:flex">
             {NAV.map((n) => (
               <Link key={n.href} href={n.href}
@@ -50,7 +50,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {NAV.map((n) => (
           <Link key={n.href} href={n.href}
             className={`flex flex-col items-center gap-0.5 py-2 text-xs font-semibold ${isActive(n.href) ? 'text-brand' : 'text-muted'}`}>
-            <span className="text-xl">{n.icon}</span>
+            <span className="text-xl"></span>
             {n.label}
           </Link>
         ))}
